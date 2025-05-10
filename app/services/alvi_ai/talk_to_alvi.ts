@@ -1,6 +1,4 @@
 import {chatNoAttachments} from '../../services/google_cloud/gemini_api';
-import {get_table, read_file_as_base64} from "@/app/services/supabase/supabase";
-
 
 /**
  * Takes the sharepoint element id of the invoice and processes it according to the provided instructions and output format.
