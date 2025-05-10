@@ -7,10 +7,13 @@ const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'application/pdf'];
 
 export async function POST(request: Request): Promise<NextResponse> {
     try {
+        console.log(request);
         // Get the form data from the request
         const formData = await request.formData();
         const file = formData.get('image') as File;
         const patientId = formData.get('patientId') as string;
+
+        console.log(formData);
 
         if (!file) {
             return NextResponse.json(
