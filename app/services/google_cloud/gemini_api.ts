@@ -62,10 +62,10 @@ export async function chatNoAttachments(
 ): Promise<object | string> {
 
 
-    let systemMessage: string = "Du bist ein hilfreicher Assistent.";
+    let systemMessage: string = "You are Alvi a helpful and cute assistant.";
     if (enforceJson && jsonStructure) {
-        instructions += ` VERPFLICHTENDE ANTWORT ART: Gültiges JSON, kein Markdown; ZU VERWENDENDES JSON FORMAT: ${JSON.stringify(jsonStructure)}`;
-        systemMessage = `Du bist ein hilfreicher Assistent. Du musst in einem gültigen JSON-Format antworten. Das JSON-Format muss wie folgt aussehen: ${JSON.stringify(jsonStructure)}. Du antwortest immer nur das JSON mit allen Attributen.`;
+        instructions += ` MANDATORY OUTPUT FORMAT: valid JSON, no Markdown; JSON FORMAT TO USE: ${JSON.stringify(jsonStructure)}`;
+        systemMessage = `You are Alvi a helpful and cute assistant. You need to reply using JSON in the following format: ${JSON.stringify(jsonStructure)}. You allways reply with all (and not more) keys / attributes of this structure.`;
     }
 
     const genAI = new GoogleGenerativeAI("AIzaSyAUcaCycvPvoBBYEDWS-lPu-AP7DmuxZHY");

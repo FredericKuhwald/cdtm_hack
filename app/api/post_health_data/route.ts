@@ -25,9 +25,9 @@ export async function POST(request: Request): Promise<NextResponse> {
         // Log interaction (non-blocking)
         log_interaction(
             patientId,
-            "APPLE HEALTH DATEN HOCHGELADEN",
+            "APPLE HEALTH DATA UPLOADED",
             "USER",
-            "Der Nutzer hat seine Apple Health Puls Mess-Daten für die letzten 24h hochgeladen. Die Werte sehen normal aus."
+            "The User has uploaded Apple Health Hearth Rate Measurements for the past 24 hours. The data looks normal."
         );
 
         return NextResponse.json({message: "Wearable Data stored", patient: supabase_response});

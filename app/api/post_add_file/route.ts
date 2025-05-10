@@ -30,9 +30,9 @@ export async function POST(request: Request): Promise<NextResponse> {
         // Log interaction (non-blocking)
         log_interaction(
             patientId,
-            "DATEI HOCHGELADEN (" + file_data.file_type + ")",
+            "FILE UPLOAD (" + file_data.file_type + ")",
             "USER",
-            "DATEI-KATEGORIE:  " + file_classification.type + " DATEI-INHALT: " + file_classification.summary
+            "FILE-CATEGORY:  " + file_classification.type + " FILE-CONTENT: " + file_classification.summary
         );
 
         // Trigger data extraction (non blocking)

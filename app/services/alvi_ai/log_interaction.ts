@@ -20,7 +20,7 @@ export async function log_interaction(
             patient_record: patientId,
             interaction_type: interactionType,
             interaction_role: interactionRole,
-            interactionMessage: interactionMessage,
+            interaction_message: interactionMessage,
         });
 
 

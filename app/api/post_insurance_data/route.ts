@@ -37,9 +37,9 @@ export async function POST(request: Request): Promise<NextResponse> {
         // Log interaction (non-blocking)
         log_interaction(
             patientId,
-            "VERSICHERUNGSKARTE GESCANNT",
+            "INSURANCE CARD SCANNED",
             "USER",
-            patientInsuranceData["first_name"] + " hat seine Versicherungskarte gescannt. Er / Sie ist bei der Techniker Krankenkasse versichert."
+            patientInsuranceData["first_name"] + " has scanned their insurance card. He is insured with: " + JSON.stringify(patientInsuranceData["insurance"])
         );
 
         return NextResponse.json({message: "Insurance Data stored", patient: supabase_response});
