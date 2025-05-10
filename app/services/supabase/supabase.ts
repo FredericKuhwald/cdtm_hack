@@ -28,17 +28,27 @@ export async function get_table(table_name: string) {
 }
 
 /**
- * Uploads a file to the 'fk-test-bucket' bucket.
- * @param path The path (including filename) in the bucket
- * @param file The content to upload (Blob, File, Buffer)
+ * Creates a file in the specified storage path and associates metadata with a database entry.
+ *
+ * @param {string} path - The path where the file will be stored in the storage bucket.
+ * @param {Blob | File | Buffer} file - The file to be uploaded to storage.
+ * @param {string} patient_id - The identifier of the patient, used to associate the file with a patient record in the database.
+ * @return {Promise<any>} A promise that resolves to the result of creating a new database entry after the file is successfully uploaded.
+ * @throws {Error} If the file upload to storage fails.
  */
-export async function create_file(path: string, file: Blob | File | Buffer): Promise<void> {
+export async function create_file(path: string, file: Blob | File | Buffer, patient_id: string): Promise<any> {
     const { error } = await supabase
         .storage
         .from('fk-test-bucket')
         .upload(path, file);
     if (error) throw new Error(`Failed to upload file: ${error.message}`);
+
+    // create corresponding entry in the database
+    return await create_new_row('documents', {url: path, patient_record: patient_id});
+
 }
+
+
 
 /**
  * Reads a file from 'fk-test-bucket' and returns its details as base64.
@@ -88,6 +98,28 @@ export function extract_mime_type(file_name: string): string {
 
 }
 
+/**
+ * Inserts a new row into the specified Supabase table.
+ * @param table_name The name of the table
+ * @param fields An object containing the column names and values to insert
+ * @returns The inserted row, or throws an error if insertion fails
+ */
+export async function create_new_row(
+    table_name: string,
+    fields: Record<string, any>
+) {
+    const { data, error } = await supabase
+        .from(table_name)
+        .insert([fields])
+        .select()
+        .single();
+
+    if (error) {
+        throw new Error(`Failed to insert row: ${error.message}`);
+    }
+
+    return data;
+}
 
 /**
  * Updates a row in a Supabase table by id.
@@ -96,7 +128,6 @@ export function extract_mime_type(file_name: string): string {
  * @param updates An object containing the fields and new values to update
  * @returns The updated row, or throws an error if update fails
  */
-
 export async function update_row_by_id(
     table: string,
     id: number | string,

@@ -5,7 +5,7 @@ import {read_file_as_base64, update_row_by_id} from "@/app/services/supabase/sup
  *
  */
 export async function classify_file_type(file_name: string,
-                                         patient_id: number,
+                                         document_id: string,
                                          instruction: string = "Was für eine Art von Dokument sieht man auf diesem Bild? Bitte ordne eine (!) der folgenden  die folgenden Optionen zu: " +
                                              "Option 1: Ein Arztbrief, in diesem Fall antworte bitte mit der file_type_classification: 'medical_letter'. " +
                                              "Option 2: Ein Impfpass (typischerweise ein gelbes Heftchen), in diesem Fall antworte bitte mit der file_type_classification: 'vaccine_certificate'. " +
@@ -34,6 +34,6 @@ export async function classify_file_type(file_name: string,
     console.log("file_type_classification", file_type_classification);
 
     // 3) Save the classification to the corresponding element in the database
-    return await update_row_by_id('test_table_fk', patient_id, {file_type: file_type_classification});
+    return await update_row_by_id('documents', document_id, {type: file_type_classification});
 
 }
