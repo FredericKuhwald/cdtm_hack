@@ -33,7 +33,7 @@ export async function POST(request: Request): Promise<NextResponse> {
             patientInsuranceData["insurance"]
         )
 
-        return NextResponse.json({message: "Insurance Data stored", patient: "data"});
+        return NextResponse.json({message: "Insurance Data stored", patient: supabase_response});
     } catch (err: any) {
         return NextResponse.json({error: err.message || "Invalid JSON"}, {status: 400});
     }
