@@ -181,11 +181,12 @@ export async function get_row_by_id(
 export async function get_previous_logs_for_patient(patientId: string): Promise<string> {
     const { data, error } = await supabase
         .from('chat_interactions')
-        .select('interaction_type, interaction_role, interactionMessage, created_at')
+        .select('interaction_type, interaction_role, interaction_message, created_at')
         .eq('patient_record', patientId)
         .order('created_at', { ascending: true });
 
     if (error) {
+
         throw new Error(`Failed to fetch logs: ${error.message}`);
     }
 
@@ -196,7 +197,7 @@ export async function get_previous_logs_for_patient(patientId: string): Promise<
     // Combine each row into a formatted string
     const logsString = data
         .map((row: any) =>
-            `${row.interaction_role} | ${row.interaction_type}: ${row.interactionMessage}`
+            `${row.interaction_type} BY ${row.interaction_role}: ${row.interactionMessage}`
         )
         .join('\n');
 
