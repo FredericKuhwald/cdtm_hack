@@ -171,4 +171,33 @@ export async function get_row_by_id(
     return data;
 }
 
+/**
+ * Retrieves and formats previous chat interactions for a patient.
+ * @param patientId The unique identifier of the patient.
+ * @returns A string listing all previous logs for the patient, sorted by created_at (ascending).
+ */
+export async function get_previous_logs_for_patient(patientId: string): Promise<string> {
+    const { data, error } = await supabase
+        .from('chat_interactions')
+        .select('interaction_type, interaction_role, interactionMessage, created_at')
+        .eq('patient_record', patientId)
+        .order('created_at', { ascending: true });
+
+    if (error) {
+        throw new Error(`Failed to fetch logs: ${error.message}`);
+    }
+
+    if (!data || data.length === 0) {
+        return '';
+    }
+
+    // Combine each row into a formatted string
+    const logsString = data
+        .map((row: any) =>
+            `${row.interaction_role} | ${row.interaction_type}: ${row.interactionMessage}`
+        )
+        .join('\n');
+
+    return logsString;
+}
 

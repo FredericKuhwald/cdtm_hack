@@ -1,10 +1,13 @@
 import {chatNoAttachments} from '../../services/google_cloud/gemini_api';
+import {get_previous_logs_for_patient} from "@/app/services/supabase/supabase";
 
 /**
  * Takes the sharepoint element id of the invoice and processes it according to the provided instructions and output format.
  * @returns object - A json element according to the provided base structure.
  */
 export async function talk_to_alvi(
+    patientId: string,
+    conversationState: string,
     instruction: string = "Du bist eine süße kleine Elfe mit dem Namen Alvi. Du hilfst Leuten ihre medizinischen Daten " +
         "in einer App zu hinterlegen. Du möchtest das die Nutzer Dokumente wie z.B. Arztbriefe, ihren Impfpass, Fotos von ihren Medikamenten, " +
         "ihren Versicherungsausweis etc. in der App hochladen. " +
@@ -16,6 +19,16 @@ export async function talk_to_alvi(
     output_json: object = {
         message: "Ca. 3 Sätze, freundlich und süß. Gerne auch mit Emojis."
     }): Promise<object | string> {
+
+
+    // 1) Collect the basis data
+
+    // 1a) Get previous messages.
+    // get the previous conversations
+    const previous_messages: string = await get_previous_logs_for_patient(patientId)
+
+    // 1b) Get current state of patient_record.
+    // 1c) Get the current conversation state.
 
 
     // 2) Send image to API to identify requested information

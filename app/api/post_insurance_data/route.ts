@@ -39,7 +39,7 @@ export async function POST(request: Request): Promise<NextResponse> {
             patientId,
             "VERSICHERUNGSKARTE GESCANNT",
             "USER",
-            "Der Nutzer hat seine Versicherungskarte gescannt. Er / Sie ist bei der Techniker Krankenkasse versichert."
+            patientInsuranceData["first_name"] + " hat seine Versicherungskarte gescannt. Er / Sie ist bei der Techniker Krankenkasse versichert."
         );
 
         return NextResponse.json({message: "Insurance Data stored", patient: supabase_response});
