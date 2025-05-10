@@ -6,14 +6,17 @@ export async function POST(request: Request): Promise<NextResponse> {
 
         // 1) Parse the body as JSON
         const requestBody: any = await request.json();
+        console.log(requestBody);
         const patientId: string = requestBody.patientId;
-        const patientInsuranceData = requestBody.patientData as {
+        const patientInsuranceData = requestBody.patientInsuranceData as {
             first_name: string,
             last_name: string,
             dob: string,
             address: object,
             insurance: object
         };
+        console.log(patientInsuranceData);
+        console.log(patientId);
 
         // 2) Check that both keys exist and contain info, if not throw error
         if (!patientId || !patientInsuranceData) {
