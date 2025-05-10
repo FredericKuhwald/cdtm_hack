@@ -35,7 +35,7 @@ export async function GET(request: Request): Promise<NextResponse> {
 
     // Return the environment variable in a JSON response
     return NextResponse.json({
-        endpoint: '/api/talk_to_alvi',
+        endpoint: '/api/get_talk_to_alvi',
         alvi_message: alvi_introduction,
         row_entry: row_entry,
         file_classification_response: file_classification_response,
