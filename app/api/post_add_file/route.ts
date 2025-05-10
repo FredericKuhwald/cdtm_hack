@@ -2,6 +2,9 @@ import {NextResponse} from 'next/server';
 import {create_file} from "@/app/services/supabase/supabase";
 import {classify_file_type} from "@/app/services/alvi_ai/classify_file_type";
 import {log_interaction} from "@/app/services/alvi_ai/log_interaction";
+import {update_diagnoses} from "@/app/services/alvi_ai/update_diagnoses";
+import {update_allergies} from "@/app/services/alvi_ai/update_allergies";
+import {update_immunizations} from "@/app/services/alvi_ai/update_immunizations";
 
 export async function POST(request: Request): Promise<NextResponse> {
     try {
@@ -25,7 +28,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         const file_response: any = await create_file(fileName, buffer, patientId);
 
         // Classify the file
-        const file_classification: any = await classify_file_type(fileName, file_response.id);
+        const file_classification: any = await classify_file_type(file_response.url, file_response.id);
 
         // Log interaction (non-blocking)
         log_interaction(
@@ -37,6 +40,9 @@ export async function POST(request: Request): Promise<NextResponse> {
 
         // Trigger data extraction (non blocking)
         // trigger data extraction depending on file type
+        update_diagnoses(file_response.url, patientId)
+        update_allergies(file_response.url, patientId)
+        update_immunizations(file_response.url, patientId)
 
 
         // For now, we'll just return a success response
