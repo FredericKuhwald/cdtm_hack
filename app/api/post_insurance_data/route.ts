@@ -1,5 +1,6 @@
 import {NextResponse} from "next/server";
 import {add_insurance_data} from "@/app/services/alvi_ai/add_insurance_data";
+import {log_interaction} from "@/app/services/alvi_ai/log_interaction";
 
 export async function POST(request: Request): Promise<NextResponse> {
     try {
@@ -32,6 +33,14 @@ export async function POST(request: Request): Promise<NextResponse> {
             patientInsuranceData["address"],
             patientInsuranceData["insurance"]
         )
+
+        // Log interaction (non-blocking)
+        log_interaction(
+            patientId,
+            "VERSICHERUNGSKARTE GESCANNT",
+            "USER",
+            "Der Nutzer hat seine Versicherungskarte gescannt. Er / Sie ist bei der Techniker Krankenkasse versichert."
+        );
 
         return NextResponse.json({message: "Insurance Data stored", patient: supabase_response});
     } catch (err: any) {
