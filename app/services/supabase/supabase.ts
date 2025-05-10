@@ -46,6 +46,7 @@ export async function create_file(path: string, file: Blob | File | Buffer, pati
     // create corresponding entry in the database
     return await create_new_row('documents', {url: path, patient_record: patient_id});
 
+
 }
 
 

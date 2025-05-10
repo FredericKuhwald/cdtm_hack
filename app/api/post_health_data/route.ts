@@ -1,5 +1,6 @@
 import {NextResponse} from "next/server";
 import {add_wearable_data} from "@/app/services/alvi_ai/add_wearable_data";
+import {log_interaction} from "@/app/services/alvi_ai/log_interaction";
 
 
 export async function POST(request: Request): Promise<NextResponse> {
@@ -20,6 +21,14 @@ export async function POST(request: Request): Promise<NextResponse> {
             patientId,
             patientWearableData
         )
+
+        // Log interaction (non-blocking)
+        log_interaction(
+            patientId,
+            "APPLE HEALTH DATEN HOCHGELADEN",
+            "USER",
+            "Der Nutzer hat seine Apple Health Puls Mess-Daten für die letzten 24h hochgeladen. Die Werte sehen normal aus."
+        );
 
         return NextResponse.json({message: "Wearable Data stored", patient: supabase_response});
     } catch (err: any) {

@@ -16,7 +16,7 @@ export async function GET(request: Request): Promise<NextResponse> {
 
     // Return the environment variable in a JSON response
     return NextResponse.json({
-        endpoint: '/api/get_talk_to_alvi',
+        endpoint: '/api/get_alvi_message',
         alvi_message: alvi_introduction,
         user: userAgent + " from IP: " + ipAddress,
     });
