@@ -1,4 +1,4 @@
-import {chatWithAttachment} from '../../services/google_cloud/gemini_api';
+import {chatWithAttachment} from '../google_cloud/gemini_api';
 import {read_file_as_base64, update_row_by_id, get_row_by_id} from "@/app/services/supabase/supabase";
 
 /**
