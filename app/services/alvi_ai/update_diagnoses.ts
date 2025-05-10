@@ -20,15 +20,16 @@ export async function update_diagnoses(file_name: string,
                                                         "`diagnosis_details`: alle zusätzlichen Details zur Diagnose.\n\n" +
                                                         "Wenn keine Diagnose gefunden wird, gib bitte:\n" +
                                                         "{ \"diagnoses\": [] }",
-                                        output_json: Array<{ diagnosis_date: string, diagnosis_name: string, icd10_code: string, diagnosis_details: string }> = 
-                                            [
+                                        output_json: {"diagnoses": Array<{ diagnosis_date: string, diagnosis_name: string, icd10_code: string, diagnosis_details: string }> } = {
+                                            "diagnoses": [
                                               {
                                                 diagnosis_date: "YYYY-MM-DD",
                                                 diagnosis_name: "zB. Acute bronchitis",
                                                 icd10_code: "zB. J20.9",
                                                 diagnosis_details: "alle zusätzlichen Details zur Diagnose"
                                               }
-                                            ]
+                                            ],
+                                          }
                                         ): Promise<object> {
 
     // 1) Get the corresponding document from the storage bucket
@@ -49,8 +50,9 @@ export async function update_diagnoses(file_name: string,
 
     // 3) Send known data + image to AI endpoint to update requested information
     const response: any = await chatWithAttachment(prompt, fileBase64, fileMimeType, "gemini-2.0-flash", 1, true, output_json);
-    const data_update: string = response;
+    const data_update: string = response["diagnoses"];
     console.log("data_extraction", update_diagnoses);
+    console.log("LLM response", response);
 
     // 4) Save the extraction to the corresponding element in the database
     return await update_row_by_id(supabase_table, patient_id, {diagnoses: data_update});

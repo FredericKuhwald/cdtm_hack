@@ -19,8 +19,8 @@ export async function update_allergies(file_name: string,
                                                         "'date': Datum der Erstdiagnose im YYYY-MM-DD Format" +
                                                         "'details': zusätzliche Informationen zur Allergie" +
                                                         "Wenn keine Allergie gefunden wird, gib bitte: { \"allergies\": [] }",
-                                                    output_json: Array<{ name: string; icd10_code: string; date: string; details: string }> = 
-                                                        [
+                                                    output_json: {"allergies": Array<{ name: string; icd10_code: string; date: string; details: string }> }= {
+                                                        "allergies": [
                                                         {
                                                             'name': "zB. Penicillin",
                                                             'icd10_code': "z. B. 'Z88.0'",
@@ -28,6 +28,7 @@ export async function update_allergies(file_name: string,
                                                             'details': "zusätzliche Informationen zur Allergie, zB. Bronchospasmus"
                                                         }
                                                         ],
+                                                    }
                                         ): Promise<object> {
 
     // 1) Get the corresponding document from the storage bucket
@@ -48,8 +49,9 @@ export async function update_allergies(file_name: string,
 
     // 3) Send known data + image to AI endpoint to update requested information
     const response: any = await chatWithAttachment(prompt, fileBase64, fileMimeType, "gemini-2.0-flash", 1, true, output_json);
-    const data_update: string = response;
+    const data_update: any = response["allergies"];
     console.log("data_extraction", update_allergies);
+    console.log("LLM response", response);
 
     // 4) Save the extraction to the corresponding element in the database
     return await update_row_by_id(supabase_table, patient_id, {allergies: data_update});
