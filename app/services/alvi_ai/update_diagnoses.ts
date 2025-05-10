@@ -20,8 +20,8 @@ export async function update_diagnoses(file_name: string,
                                                         "`diagnosis_details`: alle zusätzlichen Details zur Diagnose.\n\n" +
                                                         "Wenn keine Diagnose gefunden wird, gib bitte:\n" +
                                                         "{ \"diagnoses\": [] }",
-                                        output_json: { diagnoses: Array<{ diagnosis_date: string, diagnosis_name: string, icd10_code: string, diagnosis_details: string }> } = {
-                                            diagnoses: [
+                                        output_json: Array<{ diagnosis_date: string, diagnosis_name: string, icd10_code: string, diagnosis_details: string }> = 
+                                            [
                                               {
                                                 diagnosis_date: "YYYY-MM-DD",
                                                 diagnosis_name: "zB. Acute bronchitis",
@@ -29,7 +29,6 @@ export async function update_diagnoses(file_name: string,
                                                 diagnosis_details: "alle zusätzlichen Details zur Diagnose"
                                               }
                                             ]
-                                          }
                                         ): Promise<object> {
 
     // 1) Get the corresponding document from the storage bucket

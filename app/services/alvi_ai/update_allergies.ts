@@ -19,15 +19,15 @@ export async function update_allergies(file_name: string,
                                                         "'date': Datum der Erstdiagnose im YYYY-MM-DD Format" +
                                                         "'details': zusätzliche Informationen zur Allergie" +
                                                         "Wenn keine Allergie gefunden wird, gib bitte: { \"allergies\": [] }",
-                                                    output_json: { allergies: Array<{ name: string; icd10_code: string; date: string; details: string }> } = {
-                                                        allergies: [
+                                                    output_json: Array<{ name: string; icd10_code: string; date: string; details: string }> = 
+                                                        [
                                                         {
                                                             'name': "zB. Penicillin",
                                                             'icd10_code': "z. B. 'Z88.0'",
                                                             'date': "YYYY-MM-DD",
                                                             'details': "zusätzliche Informationen zur Allergie, zB. Bronchospasmus"
                                                         }
-                                                        ]},
+                                                        ],
                                         ): Promise<object> {
 
     // 1) Get the corresponding document from the storage bucket

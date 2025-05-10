@@ -24,8 +24,8 @@ export async function update_immunizations(file_name: string,
                                                         "'details: Zusätzliche Angaben zur Immunisierung.\n\n" +
                                                         "Wenn keine Immunisierungen gefunden werden, gib bitte: { \"immunizations\": [] }",
                                                     
-                                                      output_json: { immunizations: Array<{ date: string; disease: string; vaccine_name: string; batch_number: string; best_before: string; doctor_name: string; doctor_address: object; details: string }> } = {
-                                                        immunizations: [
+                                                      output_json: Array<{ date: string; disease: string; vaccine_name: string; batch_number: string; best_before: string; doctor_name: string; doctor_address: object; details: string }> = 
+                                                        [
                                                           {
                                                             date: "",
                                                             disease: "",
@@ -36,8 +36,8 @@ export async function update_immunizations(file_name: string,
                                                             doctor_address: {},
                                                             details: ""
                                                           }
-                                                        ]
-                                                      }
+                                                        ],
+                                                      
                                         ): Promise<object> {
 
     // 1) Get the corresponding document from the storage bucket
@@ -58,6 +58,7 @@ export async function update_immunizations(file_name: string,
 
     // 3) Send known data + image to AI endpoint to update requested information
     const response: any = await chatWithAttachment(prompt, fileBase64, fileMimeType, "gemini-2.0-flash", 1, true, output_json);
+    console.log("LLM response", response);
     const data_update: string = response;
     console.log("data_extraction", update_immunizations);
 

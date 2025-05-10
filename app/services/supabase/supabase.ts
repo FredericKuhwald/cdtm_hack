@@ -91,6 +91,8 @@ export function extract_mime_type(file_name: string): string {
         element_file_mime_type = 'application/pdf';
     } else if (element_file_type === 'png') {
         element_file_mime_type = 'image/png';
+    } else if (element_file_type === 'heic') {
+        element_file_mime_type = 'image/heif';
     } else if (element_file_type === 'jpg' || element_file_type === 'jpeg') {
         element_file_mime_type = 'image/jpeg';
     }
